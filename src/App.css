@@ -1,0 +1,194 @@
+header {
+  background-color: var(--DesaturatedDarkCyan);
+  background-image: url('/images/bg-header-mobile.svg');
+  background-repeat: no-repeat;
+  height: 10rem;
+}
+
+.jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.job {
+  background-color: white;
+  border-radius: .5rem;
+  padding: 2rem 1rem 1rem 1rem;
+  position: relative;
+  box-shadow: .25em .25em 1em var(--DarkGrayishCyan);
+  font-weight: 700;
+}
+
+.job.featured {
+  border-left: 4px solid var(--DesaturatedDarkCyan);
+}
+
+.job--logo {
+  height: 50px;
+  position: absolute;
+  top: -2rem;
+}
+
+.job--details {
+  display: grid;
+  gap: 1rem;
+}
+
+.job--company {
+  color: var(--DesaturatedDarkCyan);
+  padding-right: 1rem;
+}
+
+.job--stat {
+  background-color: red;
+  color: white;
+  border-radius: 2rem;
+  padding: .25rem .5rem;
+  text-transform: uppercase;
+  margin-right: .5rem;
+}
+
+.job--stat.job--featured {
+  background-color: var(--LightBlack)
+}
+
+.job--stat.job--new {
+  background-color: var(--DesaturatedDarkCyan);
+}
+
+.job--position {
+  color: var(--LightBlack)
+}
+
+hr {
+  margin-block: 1rem;
+}
+
+.job--info {
+  font-weight: 500;
+  color: gray;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-template-columns: auto auto 1fr;
+  column-gap: 1rem;
+  list-style-position: inside;
+}
+
+.job--info li:first-child {
+  list-style: none;
+}
+
+.job--labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.job--label,
+.filter {
+  border: none;
+  outline: none;
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  background-color: var(--filtersBackground);
+  color: var(--DesaturatedDarkCyan);
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+  padding-left: 1rem;
+}
+
+.filter .filter--remove {
+  background-color: var(--DesaturatedDarkCyan);
+  padding: .5rem;
+  margin-left: 1rem;
+}
+
+.filters--wrapper {
+  position: relative;
+  top: -4rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: .5rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: -4rem;
+}
+
+.filters--wrapper a {
+  color: gray;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 50em) {
+  header {
+    background-image: url('/images/bg-header-desktop.svg');
+  }
+
+  hr {
+    display: none;
+  }
+
+  .jobs {
+    margin-top: 2rem;
+    gap: 2rem;
+  }
+
+  .job {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto auto 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .job--logo {
+    top: auto;
+    position: relative;
+    height: auto;
+  }
+
+  .job--labels {
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .filters--wrapper {
+    padding: 1rem 2rem;
+  }
+
+  .filter .filter--remove:hover {
+    background-color: var(--LightBlack);
+  }
+
+  .job--label:hover {
+    cursor: pointer;
+    color: var(--filtersBackground);
+    background-color: var(--DesaturatedDarkCyan);
+  }
+
+  .job--position:hover {
+    color: var(--DesaturatedDarkCyan);
+  }
+
+  .filters--clear:hover {
+    text-decoration: underline;
+    color: var(--DesaturatedDarkCyan);
+  }
+}
