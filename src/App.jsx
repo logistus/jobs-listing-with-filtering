@@ -1,35 +1,39 @@
 import './App.css'
 import data from './data.json'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
-  const [jobs, setJobs] = useState(data)
-  const [filters, setFilters] = useState([])
+  const [jobs, setJobs] = useState([])
+  const [filters, setFilters] = useState({})
+
+  useEffect(() => {
+    setJobs(data)
+  }, [])
+
+  useEffect(() => {
+    setJobs(data.filter((job) =>
+      (filters.role === undefined ? true : job.role === filters.role) &&
+      (filters.level === undefined ? true : job.level === filters.level) &&
+      (filters.languages === undefined ? true : filters.languages.every(language => job.languages.includes(language))) &&
+      (filters.tools === undefined ? true : filters.tools.every(tool => job.tools.includes(tool)))
+    ))
+  }, [filters])
 
   const addFilter = (type, value) => {
     if (type === 'role') {
       const tempFilters = { ...filters }
       tempFilters.role = value
       setFilters(tempFilters)
-      const oldJobs = [...jobs]
-      const filteredJobs = oldJobs.filter(job => job.role === value)
-      setJobs(filteredJobs)
     } else if (type === 'level') {
       const tempFilters = { ...filters }
       tempFilters.level = value
       setFilters(tempFilters)
-      const oldJobs = [...jobs]
-      const filteredJobs = oldJobs.filter(job => job.level === value)
-      setJobs(filteredJobs)
     } else if (type === 'language') {
       const languages = filters.languages ?? []
       if (!languages.find(language => language === value)) {
         const tempFilters = { ...filters }
         tempFilters.languages = [...languages, value]
         setFilters(tempFilters)
-        const oldJobs = [...jobs]
-        const filteredJobs = oldJobs.filter(job => job.languages.includes(value))
-        setJobs(filteredJobs)
       }
     } else if (type === 'tool') {
       const tools = filters.tools ?? []
@@ -37,81 +41,39 @@ function App() {
         const tempFilters = { ...filters }
         tempFilters.tools = [...tools, value]
         setFilters(tempFilters)
-        const oldJobs = [...jobs]
-        const filteredJobs = oldJobs.filter(job => job.tools.includes(value))
-        setJobs(filteredJobs)
       }
     }
   }
 
   const removeFilter = (type, value) => {
-    const tempFilters = { ...filters }
 
     if (type === 'role') {
+      const tempFilters = { ...filters }
       delete tempFilters.role
       setFilters(tempFilters)
     } else if (type === 'level') {
+      const tempFilters = { ...filters }
       delete tempFilters.level
       setFilters(tempFilters)
     } else if (type === 'language') {
+      const tempFilters = { ...filters }
       tempFilters.languages.splice(tempFilters.languages.indexOf(value), 1)
       if (tempFilters.languages.length === 0)
         delete tempFilters.languages
       setFilters(tempFilters)
     } else if (type === 'tool') {
+      const tempFilters = { ...filters }
       tempFilters.tools.splice(tempFilters.tools.indexOf(value), 1)
       if (tempFilters.tools.length === 0)
         delete tempFilters.tools
       setFilters(tempFilters)
     }
 
-    console.log(tempFilters)
-
-    if (Object.keys(tempFilters).length === 0) {
+    if (Object.keys(filters).length === 0) {
       setJobs(data)
-      setFilters([])
-    } else {
-      if (tempFilters.role) {
-        let newJobs = []
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].role === tempFilters.role) {
-            newJobs.push(data[i])
-          }
-        }
-        setJobs(newJobs)
-      } else if (tempFilters.level) {
-        let newJobs = []
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].level === tempFilters.level) {
-            newJobs.push(data[i])
-          }
-        }
-        setJobs(newJobs)
-      } else if (tempFilters.languages && tempFilters.languages.length > 0) {
-        let newJobs = []
-        for (let i = 0; i < data.length; i++) {
-          for (let k = 0; k < tempFilters.languages.length; k++) {
-            if (data[i].languages.includes(tempFilters.languages[k])) {
-              newJobs.push(data[i])
-            }
-          }
-        }
-        setJobs(newJobs)
-      } else if (tempFilters.tools && tempFilters.tools.length > 0) {
-        let newJobs = []
-        for (let j = 0; j < data.length; j++) {
-          for (let m = 0; m < tempFilters.tools.length; m++) {
-            if (data[j].tools.includes(tempFilters.tools[m])) {
-              newJobs.push(data[j])
-            }
-          }
-        }
-        console.log(newJobs)
-        setJobs(newJobs)
-      }
+      setFilters({})
     }
   }
-
   const clearFilters = (e) => {
     e.preventDefault()
     setFilters([])
